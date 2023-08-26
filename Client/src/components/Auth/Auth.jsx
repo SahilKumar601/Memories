@@ -1,8 +1,10 @@
-import { Avatar,Paper,Typography,Container,Grid, TextField, Button } from "@material-ui/core";
+import { Avatar,Paper,Typography,Container,Grid, TextField, Button, Icon } from "@material-ui/core";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import useStyles from './styles';
+import { GoogleLogin,googleLogout } from '@react-oauth/google';
 import Input from "./input";
 import { useState } from "react";
+import 'dotenv/config';
 
 const Auth = () => {
     const [showPassword,setpassword]=useState(false);
@@ -36,6 +38,22 @@ const Auth = () => {
                             <Input name='password' label='Password' handleChange={handlechange} type={showPassword ? 'text':'password'} handleShowPassword={handleShowPassword}/>
                             { isSignUp && <Input name='confirmpassword' label='Confirm Password' handleChange={handlechange} type='password'/>}
                     </Grid>
+                    <GoogleLogin
+                        clientID={`${process.env.google_auth_client_id}`}
+                        render={(renderProps)=>(
+                            <Button 
+                            className={classes.googleButton} 
+                            color="primary" 
+                            fullWidth 
+                            onClick={renderProps.onClick} 
+                            disabled={renderProps.disabled} 
+                            startIcon={<Icon />} 
+                            variant='contained'> 
+                            Google Sign In
+                            </Button>)} 
+                            onSuccess={}
+                            onFailure={}
+                            />
                     <Button type="submit" fullWidth variant='contained' color='primary' className={classes.submit}>
                         {isSignUp ? 'Sign Up':'Sign In'}
                     </Button>
