@@ -19,10 +19,10 @@ const Home = () => {
       <Container>
         <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
           <Grid item xs={12} sm={7}>
-            <Posts setCurrentId={setcurrentId} />
+            <Posts setcurrentId={setcurrentId} />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Form currentId={currentId} setCurrentId={setcurrentId} />
+            <Form currentId={currentId} setcurrentId={setcurrentId} />
           </Grid>
         </Grid>
       </Container>

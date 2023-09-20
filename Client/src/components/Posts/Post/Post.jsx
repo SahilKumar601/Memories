@@ -7,7 +7,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import {deletePost, likePost} from '../../../actions/posts.js';
 
-const Post = function ({post,setcurrentId}) {
+const Post =({post,setcurrentId})=>{
     const dispatch = useDispatch();
     const classes=useStyles();
     return(
@@ -21,9 +21,7 @@ const Post = function ({post,setcurrentId}) {
                 <Button 
                 style={{color:'white'}} 
                 size='small' 
-                onClick={()=>{
-                    setcurrentId(post._id);
-                }}>
+                onClick={()=>{setcurrentId(post._id)}}>
                     <MoreHorizIcon fontSize='default'/>
                 </Button>
             </div>

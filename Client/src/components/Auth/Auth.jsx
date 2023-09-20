@@ -4,20 +4,29 @@ import useStyles from './styles';
 import { GoogleLogin,GoogleOAuthProvider,googleLogout } from '@react-oauth/google';
 import Input from "./Input";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import jwt_decode from "jwt-decode";
 
+const intialize ={firstname:'',lastname:'',emailid:'',password:''};
 const Auth = () => {
+    const [formdata,setformdata] =useState(intialize);
     const [showPassword,setpassword]=useState(false);
     const classes=useStyles();
+    const navigate=useNavigate();
     const dispatch = useDispatch(); 
     const [isSignUp,setSignUp]=useState(false);
     const switchMode=()=>{
         setSignUp((prev)=> !prev);
         handleShowPassword(false);
     }
-    const handleSubmit=()=>{};
-    const handlechange=()=>{};
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        console.log(formdata);
+    };
+    const handlechange=(e)=>{
+        setformdata({...formdata,[e.target.name]:e.target.value});
+    };
     const handleShowPassword=()=>{setpassword((prevpass)=>{!prevpass})}
     const googleOnsuccess=async(res)=>{
             const decode=jwt_decode(res?.credential);
@@ -26,6 +35,7 @@ const Auth = () => {
             const token=decode?.sub;
             try {
                 dispatch({type:'AUTH', data:{result,token}});
+                navigate('/');
             } catch (error) {
                 console.error(error);
             }
@@ -43,8 +53,8 @@ const Auth = () => {
                         {
                             isSignUp && (
                                 <>
-                                    <Input name="firstname" label='First Name' handlechange={handlechange}  autoFocus half/>
-                                    <Input name="lastname" label='Last Name' handlechange={handlechange} half /> 
+                                    <Input name="firstname" label='First Name' type='text' handleChange={handlechange}  autoFocus half/>
+                                    <Input name="lastname" label='Last Name' type='text' handleChange={handlechange} half /> 
                                 </>
                             )}
                             <Input name='emailid' label='Email Id' handleChange={handlechange} type='email'/>

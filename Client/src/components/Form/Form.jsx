@@ -4,19 +4,19 @@ import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
 import {createpost, updatedPost} from '../../actions/posts.js'
 import { Typography, TextField, Button,Paper } from '@material-ui/core';
-const Form =function ({currentId,setcurrentId}){
+const Form =({currentId,setcurrentId})=>{
     const classes=useStyles();
     const [postdata,setdata]=useState({ creator:'',title:'',message:'',tags:'',selectedFile:''});
     const post=useSelector((state)=>currentId ? state.posts.find((p)=> p._id===currentId) : null);
     const dispatch=useDispatch();
     useEffect(()=>{
-        if(post){setdata(post);}
-    },[post])
+        if(post) setdata(post);
+    },[post]);
     const clear=()=>{
         setcurrentId(null);
         setdata({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
     }
-    const handlesubmit=(e)=>{
+    const handlesubmit=async(e)=>{
         e.preventDefault();
         if(currentId === null){
             dispatch(createpost(postdata));
