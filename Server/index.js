@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({limit:'30mb' , extended:true}));
 app.use(Cors());
 
 app.use('/posts',postRoutes);
-app.use('/user',userRoutes);
+app.use('/users',userRoutes);
 const Port=5000 || process.env.PORT;
 mongoose.connect(process.env.Connection_url)
         .then(()=>{

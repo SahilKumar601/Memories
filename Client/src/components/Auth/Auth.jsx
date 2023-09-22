@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import jwt_decode from "jwt-decode";
+import { signin,signup} from '../../actions/Auth';
 
 const intialize ={firstname:'',lastname:'',emailid:'',password:''};
 const Auth = () => {
@@ -22,6 +23,11 @@ const Auth = () => {
     }
     const handleSubmit=(e)=>{
         e.preventDefault();
+        if(isSignUp) {
+            dispatch(signup(formdata,navigate));
+        } else {
+            dispatch(signin(formdata,navigate));
+        }
         console.log(formdata);
     };
     const handlechange=(e)=>{
