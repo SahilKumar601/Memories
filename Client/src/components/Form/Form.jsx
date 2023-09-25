@@ -20,6 +20,7 @@ const Form =({currentId,setcurrentId})=>{
     const handlesubmit=async(e)=>{
         e.preventDefault();
         if(currentId === null){
+            console.log(user?.result?.name);
             dispatch(createpost({...postdata,name:user?.result?.name}));
         }else{
             dispatch(updatedPost(currentId,{...postdata,name:user?.result?.name}))
@@ -27,11 +28,12 @@ const Form =({currentId,setcurrentId})=>{
         clear();
     };
     if(!user?.result?.name){
+        return(
         <Paper className={classes.paper}>
             <Typography align='center' variant='h6'>
                 Please Login Then Add Memories...
             </Typography>
-        </Paper>    }
+        </Paper>)    }
     return(
         <Paper className={classes.paper}>
             <form method='POST' autoComplete='off' noValidate onSubmit={handlesubmit} className={`${classes.root} ${classes.form}`}>

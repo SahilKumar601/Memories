@@ -1,5 +1,8 @@
+import express from 'express';
 import mongoose from 'mongoose';
 import PostMessage from '../models/postSchema.js';
+
+const router = express.Router();
 export const getPost = async (req, res) => {
     try{
     const postmessage=await PostMessage.find();
@@ -52,6 +55,7 @@ export const likePost=async(req,res)=>{
     }else{
         post.likes= post.likes.filter((id)=> id !== req.userId);
     }
-    const updatedPost=await PostMessage.findByIdAndUpdate(id,{likeCount:post.likeCount+1},{new:true});
-    res.json(updatedPost);
+    const updatedPost=await PostMessage.findByIdAndUpdate(id,post,{new:true});
+    res.status(200).json(updatedPost);
 }
+export default router;
