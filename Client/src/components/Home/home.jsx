@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import Paginations from '../Paginations.jsx'
 import ChipInput from 'material-ui-chip-input';
 import { useLocation,useNavigate } from 'react-router-dom';
-import { getPost } from '../../actions/posts';
+import { getPost,getPostBySearch } from '../../actions/posts';
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import useStyles from './styles.js'
@@ -23,17 +23,20 @@ const Home = () => {
   const page = query.get('page') || 1;
   const searhQuery = query.get('searhQuery');
   const classes=useStyles();
-  useEffect(() => {
-    dispatch(getPost());
-  }, [currentId, dispatch]);
   const handleKeypress = (e)=>{
     if(e.keycode ===13){
-      //Perform Search
+      searchPost();
     }
   }
   const handleAdd=(tags)=>{setTags([...Tags,tags]);};
   const handleDelete=(tagsTodel)=>{setTags(Tags.filter((tag)=>tag!==tagsTodel))};
-  const searchPost=()=>{};
+  const searchPost=()=>{
+    if(search.trim() || Tags){
+      dispatch(getPostBySearch({search,tags:Tags.join(',')}))
+    }else{
+      navigate('/')
+    }
+  };
 
   return (
     <Grow in>
@@ -43,7 +46,7 @@ const Home = () => {
             <Posts setcurrentId={setcurrentId} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-             <AppBar className={classes.appBarSearch} position="static" color="inherit">
+            <AppBar className={classes.appBarSearch} position="static" color="inherit">
               <TextField
                 name='search'
                 varient='outlined'
@@ -63,7 +66,7 @@ const Home = () => {
             </AppBar>
             <Form currentId={currentId} setcurrentId={setcurrentId} />
             <Paper elevation={6}>
-              <Paginations/>
+              <Paginations page={page} />
             </Paper>
           </Grid>
         </Grid>

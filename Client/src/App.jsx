@@ -1,22 +1,20 @@
 import React from "react";
 import {Container} from '@material-ui/core';
 import './index.css'
-import { BrowserRouter as Router, Routes,Route,redirect, Navigate} from "react-router-dom";
+import { BrowserRouter as Router, Routes,Route,} from "react-router-dom";
 import Home from "./components/Home/home";
 import Navbar from "./components/Navbar/Navbar";
 import Auth from "./components/Auth/Auth";
 import PostDetails from "./components/PostDetails/PostDetails";
 
 function App(){
-    const user = JSON.parse(localStorage.getItem('profile'));
-    console.log(user);
         return(
 
                 <Router>
                     <Container maxWidth="lg">
                         <Navbar/>
                         <Routes>
-                            <Route path="/" exact Component={Home}/>
+                            <Route path="/" exact Component={Home} />
                             <Route path='/posts/' exact Component={Home}/>
                             <Route path='/posts/search' exact Component={Home}/>
                             <Route path='/posts/:id' exact Component={PostDetails}/>

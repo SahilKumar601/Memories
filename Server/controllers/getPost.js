@@ -4,10 +4,13 @@ import PostMessage from '../models/postSchema.js';
 
 const router = express.Router();
 export const getPost = async (req, res) => {
+    const {page}=req.query;
     try{
-    const postmessage=await PostMessage.find();
-    console.log(postmessage);
-    res.status(200).json(postmessage)
+        const Limit=8;
+        const startIndex=(Number(page)-1)*Limit;
+        const totalPages=await PostMessage.countDocuments({});
+        const posts=await PostMessage.find().sort({_id:-1 }).limit(Limit).skip(startIndex);
+        res.status(200).json({data:posts,currentPage:Number(page), numberofPages:Math.ceil(totalPages/Limit)});
     }
     catch(err){
         res.status(404).json({message:err})
@@ -36,7 +39,16 @@ export const updatePost = async (req, res) => {
 
     res.json(updatedPost);
 }
-
+export const getPostBySearch=async(req,res)=>{
+    const {searchQuery,tags}=req.query
+    try {
+        const title=new RegExp(searchQuery, 'i');
+        const post = await PostMessage.find({$or:[ {title} ,{tags:{$in:tags.spilt(',')}}]});
+        res.json({data:post});
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+}
 export const deletePost=async(req,res)=>{
     const {id} = req.params;
     if(!mongoose.Types.ObjectId.isValid(id)){return res.status(404).send('404 Not Found')}

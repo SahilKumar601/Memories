@@ -1,10 +1,10 @@
 import * as api from '../api';
-import {FETCH_ALL,CREATE_POST,UPDATE,DELETE,LIKE} from '../constant/actionType';
+import {FETCH_ALL,CREATE_POST,UPDATE,DELETE,LIKE,FETCH_BY_SEARCH} from '../constant/actionType';
 
-export const getPost=()=>async(dispatch)=>{
+export const getPost=(page)=>async(dispatch)=>{
     try{
-        const {data}=await api.fetchPost();
-        dispatch({type:FETCH_ALL, payload:data});
+        const { data: { data, currentPage, numberofPages } } = await api.fetchPost(page);
+        dispatch({ type: FETCH_ALL, payload: { data, currentPage, numberofPages } });
     } catch (error) {
         console.log(error.message);   
     }
@@ -30,9 +30,17 @@ export const deletePost = (id) => async (dispatch) => {
     try {
       await api.deletePost(id);
       dispatch({type: DELETE, payload: id });
-      console.log('set from actions creator');
     } catch (error) {
       console.log(error.message);
+    }
+}
+export const getPostBySearch=()=>async(dispatch)=>{
+    try {
+        const {data:{data}}=await api.fetchPostBySearch();
+        console.log(data);
+        dispatch({type: FETCH_BY_SEARCH, payload: {data}});
+    } catch (error) {
+        console.log(error.message);
     }
 }
 export const likePost=(id)=>async(dispatch)=>{
