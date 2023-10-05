@@ -8,7 +8,8 @@ API.interceptors.request.use((req)=>{
     return req;
 })
 
-export const fetchPost= (page) => API.get(`/posts?page=${page}`);
+export const fetchPosts= (page) => API.get(`/posts?page=${page}`);
+export const fetchPost=(id)=>API.get(`/posts/${id}`);
 export const createpost=(post) => API.post('/posts',post);
 export const deletePost=(id) => API.delete(`/posts/${id}`);
 export const updatedPost=(id,updatedPost)=> API.patch(`/posts/${id}`,updatedPost);

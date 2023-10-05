@@ -1,10 +1,10 @@
 import * as api from '../api';
 import {FETCH_ALL,CREATE_POST,UPDATE,DELETE,LIKE,FETCH_BY_SEARCH,END_LOADING, START_LOADING} from '../constant/actionType';
 
-export const getPost=(page)=>async(dispatch)=>{
+export const getPosts=(page)=>async(dispatch)=>{
     try{
         dispatch({type:START_LOADING});
-        const { data: { data, currentPage, numberofPages } } = await api.fetchPost(page);
+        const { data: { data, currentPage, numberofPages } } = await api.fetchPosts(page);
         dispatch({ type: FETCH_ALL, payload: { data, currentPage, numberofPages } });
         dispatch({ type:END_LOADING});
     } catch (error) {

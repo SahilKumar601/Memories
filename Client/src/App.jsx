@@ -15,7 +15,7 @@ function App(){
                         <Navbar/>
                         <Routes>
                             <Route path="/" exact Component={Home} />
-                            <Route path='/posts/' exact Component={Home}/>
+                            <Route path='/posts' exact Component={Home}/>
                             <Route path='/posts/search' exact Component={Home}/>
                             <Route path='/posts/:id' exact Component={PostDetails}/>
                             <Route path="/auth" exact Component={Auth}/>    //condition wasn't working properly !user || user==null navigate to auth page else navigate to post(home page);

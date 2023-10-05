@@ -5,13 +5,13 @@ import { useDispatch } from 'react-redux';
 import Paginations from '../Paginations.jsx'
 import ChipInput from 'material-ui-chip-input';
 import { useLocation,useNavigate } from 'react-router-dom';
-import { getPost,getPostBySearch } from '../../actions/posts';
+import { getPostBySearch } from '../../actions/posts';
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import useStyles from './styles.js'
 
 function useQuery(){
-  return new URLSearchParams(useLocation.search);
+  return new URLSearchParams(useLocation().search);
 }
 const Home = () => {
   const [currentId, setcurrentId] = useState(null);
@@ -19,6 +19,7 @@ const Home = () => {
   const [Tags,setTags]=useState([]);
   const dispatch = useDispatch();
   const query=useQuery();
+  console.log(query.get('page'));
   const navigate =useNavigate();
   const page = query.get('page') || 1;
   const searhQuery = query.get('searhQuery');
@@ -66,6 +67,7 @@ const Home = () => {
               <Button onClick={searchPost} variant='contained' color='primary' className={classes.searchButton}>Search</Button>
             </AppBar>
             <Form currentId={currentId} setcurrentId={setcurrentId} />
+            {console.log(page)}
             {(!searhQuery && !Tags.length) && (
               <Paper elevation={6} className={classes.pagination}>
                 <Paginations page={page} />
