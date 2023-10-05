@@ -32,7 +32,8 @@ const Home = () => {
   const handleDelete=(tagsTodel)=>{setTags(Tags.filter((tag)=>tag!==tagsTodel))};
   const searchPost=()=>{
     if(search.trim() || Tags){
-      dispatch(getPostBySearch({search,tags:Tags.join(',')}))
+      dispatch(getPostBySearch({search,tags:Tags.join(',')}));
+      navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${Tags.join(',')}`);
     }else{
       navigate('/')
     }
@@ -50,10 +51,10 @@ const Home = () => {
               <TextField
                 name='search'
                 varient='outlined'
-                onKeyPress={handleKeypress}
+                onKeyDown={handleKeypress}
                 label='Search Memories'
                 fullWidth
-                value=''
+                value={search}
                 onChange={(e)=>setsearch(e.target.value)}/> 
               <ChipInput 
                 style={{margin:'10px 0px'}}
@@ -65,9 +66,11 @@ const Home = () => {
               <Button onClick={searchPost} variant='contained' color='primary' className={classes.searchButton}>Search</Button>
             </AppBar>
             <Form currentId={currentId} setcurrentId={setcurrentId} />
-            <Paper elevation={6}>
-              <Paginations page={page} />
-            </Paper>
+            {(!searhQuery && !Tags.length) && (
+              <Paper elevation={6} className={classes.pagination}>
+                <Paginations page={page} />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Container>

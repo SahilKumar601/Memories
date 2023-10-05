@@ -41,9 +41,12 @@ export const updatePost = async (req, res) => {
 }
 export const getPostBySearch=async(req,res)=>{
     const {searchQuery,tags}=req.query
+    console.log(req.query);
     try {
         const title=new RegExp(searchQuery, 'i');
-        const post = await PostMessage.find({$or:[ {title} ,{tags:{$in:tags.spilt(',')}}]});
+        const tagsArray = tags.split(',').map(tag => tag.trim());
+        const post = await PostMessage.find({$or:[ {title} ,{tags:{$in:tagsArray}}]});
+        console.log(post);
         res.json({data:post});
     } catch (error) {
         res.status(404).json({message: error.message});

@@ -7,7 +7,7 @@ import { Typography, TextField, Button,Paper } from '@material-ui/core';
 const Form =({currentId,setcurrentId})=>{
     const classes=useStyles();
     const [postdata,setdata]=useState({title:'',message:'',tags:'',selectedFile:''});
-    const post=useSelector((state)=>currentId ? state.posts.find((p)=> p._id===currentId) : null);
+    const post=useSelector((state)=>currentId ? state.posts.posts.find((p)=> p._id===currentId) : null);
     const user=JSON.parse(localStorage.getItem('profile'));
     const dispatch=useDispatch();
     useEffect(()=>{
@@ -35,7 +35,7 @@ const Form =({currentId,setcurrentId})=>{
             </Typography>
         </Paper>)    }
     return(
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={6}>
             <form method='POST' autoComplete='off' noValidate onSubmit={handlesubmit} className={`${classes.root} ${classes.form}`}>
                 <Typography variant='h6'>{currentId ? 'Editting' : 'Creating'} Memories</Typography>
                 <TextField name='title' variant='outlined' label='title' fullWidth value={postdata.title} onChange={(e)=>setdata({...postdata,title:e.target.value})}/>
