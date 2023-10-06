@@ -5,7 +5,6 @@ import PostMessage from '../models/postSchema.js';
 const router = express.Router();
 export const getPosts = async (req, res) => {
     const {page}=req.query;
-    console.log(page);
     try{
         const Limit=8;
         const startIndex=(Number(page)-1)*Limit;
