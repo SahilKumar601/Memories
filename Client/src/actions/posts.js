@@ -1,5 +1,5 @@
 import * as api from '../api';
-import {FETCH_ALL,CREATE_POST,UPDATE,DELETE,LIKE,FETCH_BY_SEARCH,END_LOADING, START_LOADING} from '../constant/actionType';
+import {FETCH_ALL,CREATE_POST,UPDATE,DELETE,LIKE,FETCH_BY_SEARCH,END_LOADING, START_LOADING, FETCH_POST} from '../constant/actionType';
 
 export const getPosts=(page)=>async(dispatch)=>{
     try{
@@ -9,6 +9,16 @@ export const getPosts=(page)=>async(dispatch)=>{
         dispatch({ type:END_LOADING});
     } catch (error) {
         console.log(error.message);   
+    }
+}
+export const getpost=(id)=>async(dispatch)=>{
+    try{
+        dispatch({type:START_LOADING});
+        const {data}=await api.fetchPost(id);
+        dispatch({type:FETCH_POST,payload:data});
+        dispatch({type:END_LOADING});
+    }catch(error){
+        console.log(error.message);
     }
 }
 export const createpost=(post)=>async(dispatch)=>{
