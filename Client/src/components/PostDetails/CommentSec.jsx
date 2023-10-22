@@ -7,38 +7,37 @@ import { commentPost } from "../../actions/posts.js";
 
 const CommentSec = ({post}) => {
     const classes = useStyles();
-    const [comments,setcomments]=useState(post?.comment);
+    const [comments,setcomments]=useState(post?.comments);
     const [comment,setcomment] = useState([]);
-    const commentRef=useRef();
+    const commentsRef=useRef();
     const dispatch = useDispatch();
     const user=JSON.parse(localStorage.getItem('profile'));
-    console.log(user);
     const handleClick=async()=>{
         const finalComment=`${user.result.name}:${comment}`;
         const newComments = await dispatch(commentPost(finalComment,post._id));
         setcomments(newComments);
         setcomment('');
-        commentRef.current.scrollIntoView({behavior:'smooth'});
+        commentsRef.current.scrollIntoView({behavior:'smooth'});
     };  
     return ( 
         <div>
             <div className={classes.commentsOuterContainer}>
                 <div className={classes.commentsInnerContainer}>
                     <Typography gutterBottom variant="h6">Commments</Typography>
-                     {comments.map((c,i)=>(
-                        <Typography key={i} guuterBottom variant='subtitle1'>
-                            <strong>{c.spilt(':')[0]}</strong>
-                            : {c.spilt(':')[1]}
+                     {comments?.map((c,i)=>(
+                        <Typography key={i} gutterBottom variant='subtitle1'>
+                            <strong>{c.split(':')[0]}</strong>
+                            : {c.split(':')[1]}
                         </Typography>
                      ))}
+                     <div ref={commentsRef}/>
                 </div>
-                <div ref={commentRef}/>
                 {user?.result?.name && (
-                <div style={{width:'70%'}}>
+                <div style={{width:'60%'}}>
                     <Typography gutterBottom variant="h6">Write a Commment</Typography>
                     <TextField
                         fullWidth
-                        rows={4}
+                        minRows={4}
                         label="Write Comment here"
                         variant='outlined'
                         multiline={true}

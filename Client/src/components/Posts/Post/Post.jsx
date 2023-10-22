@@ -8,19 +8,30 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import {deletePost, likePost} from '../../../actions/posts.js';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const Post =({post,setcurrentId})=>{
     const dispatch = useDispatch();
     const user = JSON.parse(localStorage.getItem('profile'));
     const classes=useStyles();
     const navigate=useNavigate();
+    const [likes,setlikes]=useState(post?.likes);
+    const hasliked=likes.find((like) => like === (user?.result?.sub || user?.result?._id));
+    const handlelike=()=>{
+        dispatch(likePost(post._id));
+        if(hasliked){
+            setlikes(likes.filter((id)=>id!==(user?.result?.sub||user?.result?._id)));
+        }else{
+            setlikes([...likes,user?.result?.sub||user?.result?._id]);
+        }
+    }
     const Likes = () => {
-    if (post.likes?.length > 0) {          
-          const liked = post.likes.find((like) => like === (user?.result?.sub || user?.result?._id));
+    if (likes?.length > 0) {          
+          const liked = likes.find((like) => like === (user?.result?.sub || user?.result?._id));
           return liked ? (
-            <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
+            <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}` }</>
           ) : (
-            <><ThumbUpOutlinedIcon fontSize="small" />&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
+            <><ThumbUpOutlinedIcon fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
           );
         }
         return <><ThumbUpOutlinedIcon fontSize="small" />&nbsp;Like</>;
@@ -29,10 +40,10 @@ const Post =({post,setcurrentId})=>{
         navigate(`/posts/${post._id}`);
     }
     return(
-        <Card className={classes.card} raised elevation={6} onClick={openPost}>
+        <Card className={classes.card} raised elevation={6}>
                 <CardMedia className={classes.media} image={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={post.title}/>
                 <div className={classes.overlay}>
-                    <Typography variant='h6'>{post.name}</Typography>
+                    <Typography variant='h6' onClick={openPost}>{post.name}</Typography>
                     <Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
                 </div>
                 {(user?.result?.sub===post?.creator || user?.result?._id===post?.creator)&& (
@@ -53,7 +64,7 @@ const Post =({post,setcurrentId})=>{
                     <Typography  variant='body2' color='textSecondary' component='p'>{post.message}</Typography>
                 </CardContent>   
             <CardActions className={classes.cardActions}>
-                <Button size='small' color='primary' disabled={!user?.result} onClick={()=>dispatch(likePost(post._id))}>
+                <Button size='small' color='primary' disabled={!user?.result} onClick={handlelike}>
                     <Likes/>
                 </Button>
                 {(user?.result?.sub===post?.creator || user?.result?._id===post?.creator)&& (

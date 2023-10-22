@@ -70,7 +70,7 @@ export const commentPost=(comment,id)=> async(dispatch)=>{
     try {
         const {data}=await api.comment(comment,id);
         dispatch({type:COMMENT,payload:data});
-        return data.comment;
+        return data.comments;
     } catch (error) {
         console.log(error.message);
     }

@@ -11,7 +11,7 @@ export default (state={ isLoading:true,posts:[] },action) =>{
             return {...state,post:(state.posts.map((post)=>post._id===action.payload._id ? action.payload : post))};
         case COMMENT:
             return {
-                ...state,post:state.posts.map((post)=>{
+                ...state,posts:state.posts.map((post)=>{
                     if(post._id === action.payload._id){
                         return action.payload;
                     }

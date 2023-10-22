@@ -21,9 +21,12 @@ const Navbar = () => {
   }
   useEffect(() => {
       const token = user?.token;
-      if(token?.length<100){
-        localStorage.clear();
-      }else if(token) {
+      const delayMilliseconds = 1800000;
+
+      if (token?.length < 100) {
+        setTimeout(() => {
+          localStorage.clear();
+        }, delayMilliseconds)}else if(token) {
         const decodedToken = decode(token);
   
         if (decodedToken.exp * 1000 < new Date().getTime()) logout();

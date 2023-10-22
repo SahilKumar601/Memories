@@ -16,21 +16,20 @@ const PostDetails = () => {
     dispatch(getpost(id));
   },[id]);
   useEffect(()=>{
-    if(post) dispatch(getPostBySearch({search:'none',tags:post?.tags.join(',')}));
+    if(post) dispatch(getPostBySearch({search:'none',tags:post?.tags.join(',')||[]}));
   },[post]);
   const openPost=(_id)=>{
     navigate(`/posts/${_id}`);
   }
-  const recommendedPosts=posts.filter(({_id})=>_id!==post._id);
+  const recommendedPosts=posts.filter(({_id})=>_id!==post?._id);
   if(isLoading){
     return(
       <Paper className={classes.loadingPaper} elevation={6}>
-          <CircularProgress size='7em'/>
-        </Paper>
-      ); 
+        <CircularProgress size='7em'/>
+      </Paper>
+    ); 
   }
   if(!post) return null;
-  console.log(recommendedPosts);
   return ( 
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
       <div className={classes.card}>
