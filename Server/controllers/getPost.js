@@ -8,10 +8,8 @@ export const getPosts = async (req, res) => {
     try{
         const Limit=8;
         const startIndex=(Number(page)-1)*Limit;
-        console.log(startIndex);
         const totalPages=await PostMessage.countDocuments({});
         const posts=await PostMessage.find().sort({_id:-1 }).limit(Limit).skip(startIndex);
-        console.log(posts);
         res.status(200).json({data:posts,currentPage:Number(page), numberofPages:Math.ceil(totalPages/Limit)});
     }
     catch(err){
@@ -52,12 +50,10 @@ export const updatePost = async (req, res) => {
 }
 export const getPostBySearch=async(req,res)=>{
     const {searchQuery,tags}=req.query
-    console.log(req.query);
     try {
         const title=new RegExp(searchQuery, 'i');
         const tagsArray = tags.split(',').map(tag => tag.trim());
         const post = await PostMessage.find({$or:[ {title} ,{tags:{$in:tagsArray}}]});
-        console.log(post);
         res.json({data:post});
     } catch (error) {
         res.status(404).json({message: error.message});
@@ -67,7 +63,6 @@ export const deletePost=async(req,res)=>{
     const {id} = req.params;
     if(!mongoose.Types.ObjectId.isValid(id)){return res.status(404).send('404 Not Found')}
     await PostMessage.findByIdAndRemove(id);
-    console.log('Deleted');
     res.json({message:'delete message'})
 }
 export const likePost=async(req,res)=>{

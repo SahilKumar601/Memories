@@ -28,18 +28,15 @@ const Auth = () => {
         } else {
             dispatch(signin(formdata,navigate));
         }
-        console.log(formdata);
     };
     const handlechange=(e)=>{
         setformdata({...formdata,[e.target.name]:e.target.value});
     };
-    const handleShowPassword=()=>{setpassword((prevpass)=>{!prevpass})}
+    const handleShowPassword = () => setpassword(!showPassword);
     const googleOnsuccess=async(res)=>{
-            console.log(res);
+
             const decode=jwt_decode(res?.credential);
-            console.log(decode);
             const result={picture:decode?.picture,email:decode?.email,name:decode?.name,sub:decode?.sub};
-            console.log(result);
             const token=decode?.sub;
             try {
                 dispatch({type:'AUTH', data:{result,token}});

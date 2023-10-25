@@ -8,7 +8,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import {deletePost, likePost} from '../../../actions/posts.js';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState} from 'react';
 
 const Post =({post,setcurrentId})=>{
     const dispatch = useDispatch();

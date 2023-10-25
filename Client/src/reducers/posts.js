@@ -6,9 +6,9 @@ export default (state={ isLoading:true,posts:[] },action) =>{
         case END_LOADING:
             return {...state,isLoading: false};
         case DELETE:
-            return {...state,post:state.posts.filter((post) => post._id !== action.payload)};
+            return {...state,posts:state.posts.filter((post) => post._id !== action.payload)};
         case UPDATE:
-            return {...state,post:(state.posts.map((post)=>post._id===action.payload._id ? action.payload : post))};
+            return {...state,posts:(state.posts.map((post)=>post._id===action.payload._id ? action.payload : post))};
         case COMMENT:
             return {
                 ...state,posts:state.posts.map((post)=>{
@@ -32,7 +32,7 @@ export default (state={ isLoading:true,posts:[] },action) =>{
                     numberofPages:action.payload.numberofPages,
                 };
         case CREATE_POST:
-            return {...state,post:[...state.posts,action.payload]};
+            return {...state,posts:[...state.posts,action.payload]};
         default:
             return state;
     }

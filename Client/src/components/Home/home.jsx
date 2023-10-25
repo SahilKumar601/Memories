@@ -19,7 +19,6 @@ const Home = () => {
   const [Tags,setTags]=useState([]);
   const dispatch = useDispatch();
   const query=useQuery();
-  console.log(query.get('page'));
   const navigate =useNavigate();
   const page = query.get('page') || 1;
   const searhQuery = query.get('searhQuery');
