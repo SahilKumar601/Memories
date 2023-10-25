@@ -14,7 +14,7 @@ app.use(Cors());
 app.use('/posts',postRoutes);
 app.use('/users',userRoutes);
 const Port=5000 || process.env.PORT;
-mongoose.connect(process.env.Connection_url)
+mongoose.connect(`${process.env.Connection_url}`)
         .then(()=>{
             console.log('Connection Sucessfull');
             app.listen(Port,()=>{
